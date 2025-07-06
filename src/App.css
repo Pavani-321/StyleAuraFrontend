@@ -1,0 +1,259 @@
+:root {
+  --primary-accent: #0cf;
+  --primary-accent-dark: #0099cc;
+}
+
+/* Add/Ensure global box-sizing and body reset for better predictability */
+html {
+  box-sizing: border-box;
+  overflow-x: hidden; /* Prevents horizontal scroll on the page */
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0; /* Remove default browser margin */
+  /* Your other body styles from #root or body,html block */
+  background: #f8f9fa !important;
+  min-height: 100vh;
+  /* width: 100%; implicit, no need for 100vw here */
+  overflow-y: auto !important;
+}
+
+#root {
+  margin: 0 auto; /* If you want #root centered with a max-width, otherwise consider removing for full-width pages */
+  padding: 0; /* If HomePage is meant to be full-bleed, remove #root padding or handle it differently */
+  /* text-align: center; /* Usually not needed if #root children are block-level and manage their own alignment */
+}
+
+
+/* ... (your existing styles) ... */
+
+.sidebar-fixed {
+  width: 250px;
+  min-width: 220px;
+  max-width: 280px;
+  position: fixed;
+  top: 80px; /* adjust if navbar height changes */
+  bottom: 40px; /* adjust if footer height changes */
+  left: 0;
+  height: calc(100vh - 90px);
+  height: 500px;
+  margin-bottom: 60px;
+  background: #fff;
+  border-right: 1px solid #ececec;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.03);
+  padding: 1.5rem 1rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box; /* <<< CRITICAL CHANGE HERE */
+}
+
+.products-flex-area {
+  margin-left: 250px; /* This now correctly matches the sidebar's total width */
+  width: calc(100% - 250px); /* 100% of parent's width minus sidebar */
+  padding: 2.5rem 2rem 2rem 2rem;
+  min-height: 100vh;
+  box-sizing: border-box; /* Good, ensures padding is within the calculated width */
+}
+
+.product-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: flex-start; /* Or 'center' if you prefer items centered when not filling a row */
+  align-items: stretch;
+}
+
+.product-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 1.5rem;
+  text-align: center;
+  transition: box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  
+  /* Default: 4 items per row. Calculation: (100% - (3 gaps * 2rem/gap)) / 4 items = 25% - 1.5rem */
+  flex: 1 1 calc(25% - 1.5rem); 
+  max-width: calc(25% - 1.5rem);
+  min-width: 180px; 
+  margin: 1rem 0; /* Vertical margin; horizontal spacing by grid gap */
+}
+.product-card:hover {
+  box-shadow: 0 4px 16px rgba(34,34,59,0.15);
+}
+.product-img {
+  width: 100%;
+  max-width: 180px;
+  height: 180px;
+  object-fit:contain;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  background: #f8f9fa;
+}
+/* ... (rest of your .product-card related styles and media queries as they were) ... */
+
+/* Responsive adjustments (ensure these calculations are also correct) */
+/* 3 items per row: (100% / 3) - (2 gaps * 2rem / 3 items) = 33.333% - 1.333rem */
+@media (max-width: 1200px) {
+  .product-card {
+    flex: 1 1 calc(33.333% - 1.333rem); /* (100% - 2*2rem) / 3 */
+    max-width: calc(33.333% - 1.333rem);
+  }
+}
+
+/* 2 items per row: (100% / 2) - (1 gap * 2rem / 2 items) = 50% - 1rem */
+@media (max-width: 900px) {
+  .products-flex-area {
+    padding: 1.5rem 0.5rem;
+  }
+  .product-card {
+    flex: 1 1 calc(50% - 1rem); /* (100% - 1*2rem) / 2 */
+    max-width: calc(50% - 1rem);
+  }
+}
+
+/* 1 item per row on mobile */
+@media (max-width: 600px) {
+  .sidebar-fixed {
+    position: static;
+    width: 100%;
+    max-width: 100vw; /* On mobile, 100vw is fine for this specific case */
+    height: auto;
+    border-right: none;
+    box-shadow: none;
+    margin-bottom: 1.5rem;
+    padding: 1rem 0.5rem;
+    top: auto; 
+    height: auto; 
+    z-index: auto; 
+  }
+  .products-flex-area {
+    margin-left: 0;
+    width: 100%;
+    padding: 1rem 0.2rem;
+  }
+  .product-card {
+    flex: 1 1 100%; /* Or calc(100% - any margin if not using gap effectively) */
+    max-width: 100%;
+    min-width: auto; 
+    margin: 0.5rem 0;
+  }
+}
+
+/* Remove or ensure the later conflicting/duplicate .product-grid and .product-card rules */
+/* (the ones under the #page CSS Grid layout) are not interfering if they are not intended for this page. */
+/* If they are for this page, they need to be consolidated with the above. */
+
+/* --- Product Detail Page: Remove scrollbars, center content, and polish image/details --- */
+.product-detail-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  width: 100vw;
+  overflow: hidden;
+  background: #fff;
+  padding: 2rem 0;
+  margin-top: 40px;
+}
+.product-detail-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 24px rgba(34,34,59,0.10);
+  padding: 2.5rem 2rem 2rem 2rem;
+  max-width: 480px;
+  width: 98vw;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: visible;
+}
+.product-detail-card.large {
+  max-width: 540px;
+  padding: 1rem 1rem 1rem 1rem;
+}
+.product-detail-img {
+  width: 100%;
+  max-width: 320px;
+  max-height: 350px;
+  object-fit: contain;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  background: #f8f9fa;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  display: block;
+}
+.product-detail-info {
+  width: 100%;
+  text-align: center;
+  padding: 0 0.5rem;
+}
+
+.add-to-cart-btn {
+  display: inline-block;
+  padding: 0.75rem 1.25rem;
+  border-radius: 10rem;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 1rem;
+  letter-spacing: .15rem;
+  transition: all .3s;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  background: transparent;
+  border: none;
+  font-weight: 600;
+}
+.add-to-cart-btn:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--primary-accent);
+  border-radius: 10rem;
+  z-index: -2;
+  transition: background 0.3s;
+}
+.add-to-cart-btn:before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background-color: var(--primary-accent-dark);
+  transition: all .3s;
+  border-radius: 10rem;
+  z-index: -1;
+}
+.add-to-cart-btn:hover,
+.add-to-cart-btn:focus {
+  color: #fff;
+}
+.add-to-cart-btn:hover:before,
+.add-to-cart-btn:focus:before {
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .product-detail-card, .product-detail-card.large {
+    padding: 1.2rem 0.5rem 1.5rem 0.5rem;
+    max-width: 99vw;
+  }
+  .product-detail-img {
+    max-width: 95vw;
+    max-height: 220px;
+  }
+}

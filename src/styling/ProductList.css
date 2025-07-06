@@ -1,0 +1,112 @@
+/* Popup overlay and content */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background: #fff;
+  padding: 2rem 1.5rem;
+  border-radius: 10px;
+  min-width: 450px;
+  width: 30vw;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+  max-width: 100vw;
+}
+
+.popup-content h3 {
+  margin-top: 0;
+  margin-bottom: 1.2rem;
+  font-size: 1.3rem;
+  color: #333;
+}
+
+.popup-content form label {
+  font-weight: 500;
+  color: #222;
+}
+
+.popup-content form input {
+  width: 100%;
+  padding: 0.5rem 0.7rem;
+  margin-top: 0.2rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  box-sizing: border-box;
+  transition: border 0.2s;
+}
+
+.popup-content form input:focus {
+  border: 1.5px solid #0078d4;
+  outline: none;
+}
+
+.popup-content form button[type="submit"] {
+  background: #0078d4;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.popup-content form button[type="submit"]:hover:enabled {
+  background: #005fa3;
+}
+
+.popup-content form button[type="button"] {
+  background: #eee;
+  color: #333;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  transition: background 0.2s;
+}
+
+.popup-content form button[type="button"]:hover {
+  background: #ddd;
+}
+
+.create-btn {
+  background: #0078d4;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.create-btn:hover {
+  background: #005fa3;
+}
+
+.admin-content-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 500px) {
+  .popup-content {
+    min-width: 90vw;
+    padding: 1rem;
+  }
+}
