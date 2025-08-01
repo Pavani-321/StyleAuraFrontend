@@ -38,7 +38,7 @@ const CartPage = () => {
                   <img src={item.productImageUrl} alt={item.productName} style={{ width: 60, height: 60, objectFit: 'contain', background: '#f8f9fa', borderRadius: 8 }} />
                   <span>{item.productName}</span>
                 </td>
-                <td>${item.price.toFixed(2)}</td>
+                <td>₹{item.price.toFixed(2)}</td>
                 <td>
                   <div className="d-flex align-items-center gap-2">
                     <button className="btn btn-outline-secondary btn-sm" onClick={() => changeQuantity(item.productID, -1)} disabled={item.quantity === 1}>-</button>
@@ -46,7 +46,7 @@ const CartPage = () => {
                     <button className="btn btn-outline-secondary btn-sm" onClick={() => changeQuantity(item.productID, 1)}>+</button>
                   </div>
                 </td>
-                <td>${(item.price * item.quantity).toFixed(2)}</td>
+                <td>₹{(item.price * item.quantity).toFixed(2)}</td>
                 <td>
                   <RemoveButton onClick={() => removeFromCart(item.productID)} />
                 </td>
@@ -56,7 +56,7 @@ const CartPage = () => {
         </table>
       </div>
       <div className="d-flex justify-content-between align-items-center mt-4">
-        <h4>Total: ${total.toFixed(2)}</h4>
+        <h4>Total: ₹{total.toFixed(2)}</h4>
         <Link to="/checkout" className="btn btn-success btn-lg">Proceed to Checkout</Link>
       </div>
     </div>

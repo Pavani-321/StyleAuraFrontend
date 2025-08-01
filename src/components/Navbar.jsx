@@ -1,9 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContextContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../styling/Navbar.css';
 
 const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false); // State for mobile menu
+  const [search, setSearch] = useState("");
   const { token, setToken, setUser, user } = useContext(AuthContext) || {};
   const navigate = useNavigate();
 
@@ -13,6 +16,14 @@ const Navbar = () => {
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('user');
     navigate('/login');
+  };
+
+  // Handle search submit
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (search.trim()) {
+      navigate(`/?search=${encodeURIComponent(search.trim())}`);
+    }
   };
 
   // Get first name from user object or sessionStorage fallback
@@ -49,10 +60,15 @@ const Navbar = () => {
     <nav className="navbar navbar-expand-lg navbar-light bg-light shadow sticky-top" style={{ minHeight: '70px', position: 'fixed', top: 0, left: 0, width: '100%', zIndex: 1050 }}>
       <div className="container-fluid" style={{ maxWidth: '100%' }}>
         <Link className="navbar-brand fw-bold text-primary fs-2" to="/">StyleAura</Link>
-        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button
+          className="navbar-toggler"
+          type="button"
+          aria-label="Toggle navigation"
+          onClick={() => setIsOpen(!isOpen)}
+        >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+        <div className={`navbar-collapse${isOpen ? ' show' : ' collapse'}`} id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
               <Link className="nav-link active" aria-current="page" to="/">Home</Link>
@@ -61,8 +77,15 @@ const Navbar = () => {
               <Link className="nav-link" to="/cart">Cart</Link>
             </li>
           </ul>
-          <form className="d-flex me-3">
-            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+          <form className="d-flex me-3" onSubmit={handleSearch}>
+            <input
+              className="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+            />
             <button className="btn btn-outline-primary" type="submit">Search</button>
           </form>
           {token && username && (

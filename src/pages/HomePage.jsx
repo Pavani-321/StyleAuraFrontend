@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Footer from "../components/Footer"; // Ensure this path is correct
 import "../App.css"; // Ensure this path is correct
 
@@ -10,20 +10,26 @@ const HomePage = () => {
   const [selectedBrand, setSelectedBrand] = useState("");
   const [priceRange, setPriceRange] = useState([0, 10000]);
   const [brands, setBrands] = useState([]);
-  // Add state for product ratings
   const [productRatings, setProductRatings] = useState({});
   const [selectedRating, setSelectedRating] = useState(0);
+  const location = useLocation();
+  // Get search query from URL
+  const searchParams = new URLSearchParams(location.search);
+  const searchQuery = searchParams.get('search') || "";
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("https://localhost:7216/api/Products/");
+        let url = "https://localhost:7216/api/Products/";
+        if (searchQuery.trim()) {
+          url = `https://localhost:7216/api/Products/search?query=${encodeURIComponent(searchQuery.trim())}`;
+        }
+        const res = await fetch(url);
         if (!res.ok) throw new Error("Failed to fetch products");
         const data = await res.json();
         setProducts(data);
         const uniqueBrands = Array.from(new Set(data.map(p => p.brand).filter(Boolean)));
         setBrands(uniqueBrands);
-        // Fetch ratings for all products
         fetchAllRatings(data);
       } catch (err) {
         setError("Could not load products: " + err.message);
@@ -50,7 +56,8 @@ const HomePage = () => {
       setProductRatings(ratingsObj);
     };
     fetchProducts();
-  }, []);
+    // Re-fetch when searchQuery changes
+  }, [searchQuery]);
 
   const filteredProducts = products.filter(product => {
     const inBrand = selectedBrand ? product.brand === selectedBrand : true;
@@ -140,7 +147,7 @@ const HomePage = () => {
                     />
                     <div className="card-body text-center">
                       <h5 className="card-title" style={{fontSize:'1rem',color:"black"}}>{product.name || 'Unnamed Product'}</h5>
-                      <p className="card-text">${typeof product.price === 'number' ? product.price.toFixed(2) : 'N/A'}</p>
+                      <p className="card-text">₹{typeof product.price === 'number' ? product.price.toFixed(2) : 'N/A'}</p>
                       {/* Show rating as stars if available */}
                       {typeof rating === 'number' && !isNaN(rating) && (
                         <div className="product-rating" style={{color:'#f5c518', fontWeight:'bold', display:'flex', alignItems:'center', justifyContent:'center'}}>

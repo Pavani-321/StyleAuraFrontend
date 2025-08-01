@@ -147,7 +147,7 @@ const ProductDetailPage = () => {
           className="product-detail-img"
         />
         <h2 className="card-title mb-2" style={{textAlign:'center'}}>{product.name}</h2>
-        <p className="font-weight-bold text-primary fs-5 mb-2">${product.price.toFixed(2)}</p>
+        <p className="font-weight-bold text-primary fs-5 mb-2">₹{product.price.toFixed(2)}</p>
 
       </div>
       {/* Right: Details and Reviews */}
